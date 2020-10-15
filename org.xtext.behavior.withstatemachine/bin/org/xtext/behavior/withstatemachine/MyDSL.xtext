@@ -1,0 +1,23 @@
+grammar org.xtext.behavior.withstatemachine.MyDSL with org.eclipse.xtext.common.Terminals
+
+generate myDSL "http://www.xtext.org/behavior/withstatemachine/MyDSL"
+
+Statemachine:
+	'machine' name= ID events+=Event*   states+=State*;
+
+
+	Event:
+		'event' name=ID  evenrates+=Rate*
+	;
+	State:
+		'state' name=ID transitions+=Transitions*
+	;
+	Rate:
+		//'eventrate' value=INT'.'INT
+		
+		'eventrate' eventval =INT
+			;
+	
+Transitions:
+	event=[Event] '.' eventrates=[Rate] 'to' target=[State]
+;
