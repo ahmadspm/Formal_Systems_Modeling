@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="myDsl" nsURI="http://www.xtext.org/sosarch/csdesign/MyDsl" nsPrefix="myDsl">
+  <eClassifiers xsi:type="ecore:EClass" name="ConstiuteintsystemDesign">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actions" upperBound="-1"
+        eType="#//rates" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="action" upperBound="-1"
+        eType="#//rates" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ports" upperBound="-1"
+        eType="#//Port" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Port">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="provides" upperBound="-1"
+        eType="#//provide" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requires" upperBound="-1"
+        eType="#//require" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Stochasticbehavior"/>
+  <eClassifiers xsi:type="ecore:EClass" name="StochaticConstriants">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ConstraintShareDate" upperBound="-1"
+        eType="#//shardata" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rate" upperBound="-1" eType="#//rates"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ConstraintData" upperBound="-1"
+        eType="#//Datatoinfer" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Datatoinfer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="shardata"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemTranstions">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1"
+        eType="#//State" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="events" upperBound="-1"
+        eType="#//Event" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="State">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transitions" upperBound="-1"
+        eType="#//Transition" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Transition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="event" eType="#//Event"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rate" eType="#//rates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//State"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Operation">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="recieves" unique="false"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="rates">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rates" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Event">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operation" eType="#//Operation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="require">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="provide">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StochaticBehavior" eSuperTypes="#//Stochasticbehavior">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="SystemTransition" upperBound="-1"
+        eType="#//SystemTranstions" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ConConstraint" upperBound="-1"
+        eType="#//StochaticConstriants" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Askfordata" eSuperTypes="#//Datatoinfer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TellData" eSuperTypes="#//shardata"/>
+  <eClassifiers xsi:type="ecore:EClass" name="operations" eSuperTypes="#//Operation">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sends" unique="false" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>

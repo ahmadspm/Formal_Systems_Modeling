@@ -1,0 +1,66 @@
+grammar org.xtext.sosarch.csdesign.MyDsl with org.eclipse.xtext.common.Terminals
+
+generate myDsl "http://www.xtext.org/sosarch/csdesign/MyDsl"
+
+ConstiuteintsystemDesign: 'parameters_list' '('(actions+=rates (',' action+=rates)*)? ')'
+"CS" name=ID
+"{"
+ports+=Port*;
+Port:
+{Port} 	'port' name=ID (provides+=provide)?|{Port} (requires+=require)?;
+Stochasticbehavior:
+	{StochaticBehavior} (SystemTransition+=SystemTranstions)*
+	(ConConstraint+=StochaticConstriants)*;
+StochaticConstriants:
+	{StochaticConstriants} 'Stochastic' 'Cconstraints' '{'
+	('Tell' '('ConstraintShareDate+=shardata '.' rate+=rates ')')*
+	 ('Ask' '('ConstraintData+=Datatoinfer '.' rate+=rates ')')*
+'}'
+"}";
+
+Datatoinfer:
+	{Askfordata} 
+;
+
+shardata:
+	{TellData}
+;
+SystemTranstions:'Iterate' '{'
+'transtions' name=ID "{"
+(states+=State |
+events+=Event)*
+"}";
+State:
+"state" name=ID "{"
+(transitions+=Transition)*
+"}";
+Transition:
+event=[Event] '.' rate=[rates] "->" target=[State];
+Operation:
+	{operations}
+	'operations' sends+=send |   recieves+=receive
+	             
+	//'operations' name=ID rates+=rate*
+;
+
+send:
+	'send_data'
+;
+
+receive:
+	'recieve_data' 
+;
+rates:
+	//{ActionRatees}
+	'actionrates' rates=INT'.'INT
+;
+Event:
+"event" name=ID ":" operation=[Operation|ID];
+
+require:
+	'requires' name= ID
+;
+provide:
+	'provides' name=ID
+;
+
