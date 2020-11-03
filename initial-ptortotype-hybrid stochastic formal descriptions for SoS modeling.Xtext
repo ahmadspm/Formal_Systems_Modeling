@@ -1,0 +1,206 @@
+// initial-ptortotype-hybrid stochastic formal descriptions for SoS modeling
+
+grammar org.xtext.sHSF.hsfsosm.HSoSM with org.eclipse.xtext.common.Terminals
+
+generate hSoSM "http://www.xtext.org/sHSF/hsfsosm/HSoSM"
+
+
+
+StochasticModeling:
+	StochasticModelElements+=(ModelElementsDecaration)*
+	
+;
+
+ModelElementsDecaration: {ModelElementsDecaration}
+	(AbstractArchModel+=AbsArchDecl*)
+	(ConstiuenetSystemSDesign+=CSDecl*)
+	(MediatorDesign+=MedDecl*)
+	(ConcurrentConstraints+=CConsDecl*)
+	(ArchitecutreElementsBehaviors+=AElementsBehaviorRoutines*)
+	'ModelElements' name+= (QualifiedName)+
+	(ArchTraits+=traitDeclaration*)
+		// Terminal Rules Architecture Coalition Constraints related to Performance, Reliability and Security 
+;
+// CSDESIGN DEFINTION 
+CSDecl:  // later add formal parameters considering rates of actions and concurren constraints
+'CS' name= ID 	'{'
+(CSDesignConsists+=CSMembersDefintion*) '}'
+//('[protocol' '{' assertions+=AssertionDecl+ '}')? // shall decide to inculde in CS behavior Defintion or not
+;
+CSMembersDefintion:	 {CSMembersDefintion}
+	(Ports+=ProtDeclaration*)
+	(AActions+=AElementsBehaviorRoutines*)
+	 (CSConConstraints+=CConsDecl*)
+	;
+	portandRoleType: 
+	provides | requires
+;
+provides:
+	name=ID
+;
+requires:
+	name=ID
+;
+publicinterfaeceDef:
+	 // interface signatures 
+	 'PublicInteface' Name=ID'{'
+	 //'functionality' Name= ID
+	(paramsDecl=formalParameters ('[' ']')*) ';' 
+; 
+formalParameters : 
+{formalParameters} '(' paramsDecl+=(formalParameterList)? ')' 
+; 
+formalParameterList : 
+paramDecl=formalParameter ',' paramsDecl+=formalParameter* 
+; 
+formalParameter : 
+type=types name=variableDeclaratorId 
+; 
+variableDeclaratorId : 
+name=ID ('[' ']')* 
+	 '}'
+;
+
+ProtDeclaration:
+	porttype=portandRoleType 'port'
+	PubliicIntractionpointare+=publicinterfaeceDef name = ID
+;
+
+QualifiedName:
+	ID('.'ID*)
+	
+;
+
+AElementsBehaviorRoutines: {AElementsBehaviorRoutines}
+	CollaborativeActions+=CColActions*
+CaolitionBinding+=attachCSs*
+ RemoveElements+=detachStatement*
+ ConnectElenents+=bindStatement* 
+ControlDecisions+=ControlDecisions* 
+ ActionReates+=ExponentialRates*   // Rate of Actions
+ localevents+=AElocalevents*    // local events for processing IoTs / CPS nodes or any CSs actions: Actions not shared with other CSs
+ AddElements+=AddAElements* 
+//| jadltype=elemTraitAggr 
+ jadltype=Expression  
+//|TransitionProbabilties+= ActionsProb / probablistic values could be assoicated with each action for CSs. 
+;
+CColActions:   // CollaborativeActions
+	'Collaborate' name= ID
+	type+=types  paramsDecl+=formalParameters ('[' ']')* '{' 
+methodBody+=functinality+ 
+'}' 
+; 
+functinality:  // functions to send / recieve and other operations between CS
+ //functions+=(AElementsBehaviorRoutines)*
+Actions=[AElementsBehaviorRoutines]'.' target=[ExponentialRates] // Actions with exponential Rates
+; 
+
+ 
+AddAElements: 
+'instance' name=ID '=' 'new' type=ID '()' ';' 
+; 
+attachCSs : 
+ 'attach' '(' attachParam1+=Expression ',' attachParam2+=Expression ')' ';' 
+; 
+detachStatement : 
+{detachStatement} 'detach' '(' detachParam1+=Expression ',' detachParam2+=Expression ')' ';' 
+; 
+bindStatement : 
+{bindStatement} 'bind' '(' bindParam1+=Expression ',' bindParam2+=Expression ')' ';' 
+; 
+ControlDecisions : 
+{ControlDecisions}  'Decide' '{' 
+('if'  expressionDecl=AElementsBehaviorRoutines '=>')? 
+statementDecl1+=AElementsBehaviorRoutines+ '}' 
+( 'or' '{' 
+('else' => expressionOrDecl+=AElementsBehaviorRoutines '=>')? 
+statementDecl2+=AElementsBehaviorRoutines+ '}' )* 
+'end;' 
+('iterate' '{'
+	=> expressionOrDecl+=AElementsBehaviorRoutines '=>'
+)?
+statementDecl2+=AElementsBehaviorRoutines+ '}'
+; 
+
+ExponentialRates: 
+{ExponentialRates} 'ERate' delayValue=INT'.'INT ';' // Rate of Action
+ //'Actions_Duration' RateofAction=Expression 
+; 
+AElocalevents: {AElocalevents}
+ 'getdata' //used for CSs local data processing i.e. internal actions
+| {AElocalevents} 'readdata'  //
+| {AElocalevents} (Name=ID)?
+; 
+
+CConsDecl:                  // These set of Rules are for Concurrent Constraints with Random Rates
+	 'Stochastic_Cconstraints' name= ID '{'
+	 Askconstraints+=Askopeator*
+	 |{CConsDecl} Tellconstraints+=Telloperator*
+	 //('Tell' '('ConstraintShareDate+=types '.' rate+=ExponentialRates ')')*
+	//|  ('Ask' '('ConstraintData+=types '.' rate+=ExponentialRates ')')*
+'}';
+
+Telloperator:
+	 {Telloperator} ('Tell' '('ConstraintShareDate=types '.' rate=[ExponentialRates] ')')
+;
+Askopeator:
+	{Askopeator} ('Ask' '('ConstraintData=types '.' rate=[ExponentialRates] ')')
+	;
+
+//Datatoinfer:
+	//{Askfordata} 
+//;
+
+//sharedata:
+	//{TellData}
+//;
+//traits 
+traitDeclaration: 
+'trait' name=ID '{' 
+(ports+=ProtDeclaration*) 
+(roles+=MedRoleDeclaration*) 
+'}' 
+; 
+
+MedDecl:
+	'Med' name=ID  '{'     // The mediators defintion and constraints
+	MedRoles+=MedRoleDeclaration
+	AActions+=AElementsBehaviorRoutines
+	CSConConstraints+=CConsDecl
+	'}'
+	;
+		
+MedRoleDeclaration:
+	Roletype+=portandRoleType* 'Med_Role'
+	PubliicIntractionpointare+=[publicinterfaeceDef] name = ID
+	;
+AbsArchDecl:
+	'SoS_Architecture_Caoliton' name =ID '{'
+	(AbstractCoaltion+=AElementsBehaviorRoutines*)
+	(GlobalProps+=GlobalProperties*)
+	'}';
+//AssertionDecl:
+	//;
+	
+GlobalProperties:
+	{GlobalProperties} 'Property_Name' PropertyType+=types name=ID 
+	PropertyDefValue += (ID) * // was (ID / initVals)
+;
+types:
+'stirng'
+|'int' 
+|'float' 
+| 'boolean'
+| 'type' 
+| 'void'
+;
+
+//initvals:
+//	{initvals} STRING | {initvals} INT | FLOAT | {initvals} Boolean
+//;
+
+//Boolean:
+	//'true' | 'false';
+Expression:
+	LogicalExpression 
+; 
