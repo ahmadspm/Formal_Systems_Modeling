@@ -19,5 +19,5 @@ We welcome all researchers who are interested in the following areas for formal 
 Various Statisitcal Analysis on the top of the stochastic model verifications and stohcastic Simulations can be considered for further validation of the software architecture analysis. For this following set of methods could be considered. 
 
 - Statistical inference 
-- Bayesian Statistics
+- Bayesian Statistics coupled with Bayesian Network Models (A variation from Stochastic Models with Data Driven Approach or a hybrid approach)
 - Data-Driven Analysis on the top of mechanistic modeling or the integration of the both.
