@@ -1,0 +1,192 @@
+<grammar name="org.xtext.sHSF.hsfsosm.HSoSM" with="org.eclipse.xtext.common.Terminals">
+    <generate uri="http://www.xtext.org/sHSF/hsfsosm/HSoSM" />
+    <StochasticModeling>
+        <StochasticModelElements>
+            <ModelElementsDeclaration>
+                <AbstractArchModel>
+                    <AbsArchDecl />
+                </AbstractArchModel>
+                <ConstituentSystemSDesign>
+                    <CSDecl />
+                </ConstituentSystemSDesign>
+                <MediatorDesign>
+                    <MedDecl />
+                </MediatorDesign>
+                <ConcurrentConstraints>
+                    <CConsDecl />
+                </ConcurrentConstraints>
+                <ArchitectureElementsBehaviors>
+                    <AElementsBehaviorRoutines />
+                </ArchitectureElementsBehaviors>
+                <ModelElements name="QualifiedName">
+                    <ArchTraits>
+                        <traitDeclaration />
+                    </ArchTraits>
+                </ModelElements>
+            </ModelElementsDeclaration>
+        </StochasticModelElements>
+    </StochasticModeling>
+    
+    <CSDecl name="ID">
+        <CSDesignConsists>
+            <CSMembersDefinition>
+                <Ports>
+                    <ProtDeclaration />
+                </Ports>
+                <AActions>
+                    <AElementsBehaviorRoutines />
+                </AActions>
+                <CSConConstraints>
+                    <CConsDecl />
+                </CSConConstraints>
+            </CSMembersDefinition>
+        </CSDesignConsists>
+    </CSDecl>
+    
+    <portandRoleType>
+        <provides name="ID"/>
+        <requires name="ID"/>
+    </portandRoleType>
+    
+    <publicinterfaceDef name="ID">
+        <paramsDecl>
+            <formalParameters>
+                <formalParameterList>
+                    <paramDecl>
+                        <formalParameter type="types" name="variableDeclaratorId">
+                            <variableDeclaratorId name="ID" />
+                        </formalParameter>
+                    </paramDecl>
+                </formalParameterList>
+            </formalParameters>
+        </paramsDecl>
+    </publicinterfaceDef>
+    
+    <ProtDeclaration porttype="portandRoleType">
+        <PublicInteractionPoint>
+            <publicinterfaceDef name="ID"/>
+        </PublicInteractionPoint>
+    </ProtDeclaration>
+    
+    <QualifiedName name="ID">
+        <subname name="ID" />
+    </QualifiedName>
+    
+    <AElementsBehaviorRoutines>
+        <CollaborativeActions>
+            <CColActions name="ID">
+                <type>
+                    <types />
+                </type>
+                <paramsDecl>
+                    <formalParameters />
+                </paramsDecl>
+                <methodBody>
+                    <functionality />
+                </methodBody>
+            </CColActions>
+        </CollaborativeActions>
+        <CoalitionBinding>
+            <attachCSs />
+        </CoalitionBinding>
+        <RemoveElements>
+            <detachStatement />
+        </RemoveElements>
+        <ConnectElements>
+            <bindStatement />
+        </ConnectElements>
+        <ControlDecisions>
+            <ControlDecisions />
+        </ControlDecisions>
+        <ActionRates>
+            <ExponentialRates />
+        </ActionRates>
+        <localevents>
+            <AElocalevents />
+        </localevents>
+        <AddElements>
+            <AddAElements />
+        </AddElements>
+        <jadltype>
+            <Expression />
+        </jadltype>
+    </AElementsBehaviorRoutines>
+    
+    <ExponentialRates delayValue="INT.INT" />
+    
+    <AElocalevents>
+        <getdata />
+        <readdata />
+        <Name name="ID" />
+    </AElocalevents>
+    
+    <CConsDecl name="ID">
+        <Askconstraints>
+            <Askopeator />
+        </Askconstraints>
+        <Tellconstraints>
+            <Telloperator />
+        </Tellconstraints>
+    </CConsDecl>
+    
+    <traitDeclaration name="ID">
+        <ports>
+            <ProtDeclaration />
+        </ports>
+        <roles>
+            <MedRoleDeclaration />
+        </roles>
+    </traitDeclaration>
+    
+    <MedDecl name="ID">
+        <MedRoles>
+            <MedRoleDeclaration />
+        </MedRoles>
+        <AActions>
+            <AElementsBehaviorRoutines />
+        </AActions>
+        <CSConConstraints>
+            <CConsDecl />
+        </CSConConstraints>
+    </MedDecl>
+    
+    <MedRoleDeclaration>
+        <Roletype>
+            <portandRoleType />
+        </Roletype>
+        <PublicInteractionPoint>
+            <publicinterfaceDef name="ID"/>
+        </PublicInteractionPoint>
+    </MedRoleDeclaration>
+    
+    <AbsArchDecl name="ID">
+        <AbstractCoalition>
+            <AElementsBehaviorRoutines />
+        </AbstractCoalition>
+        <GlobalProps>
+            <GlobalProperties />
+        </GlobalProps>
+    </AbsArchDecl>
+    
+    <GlobalProperties>
+        <Property_Name>
+            <PropertyType>
+                <types />
+            </PropertyType>
+            <PropertyDefValue name="ID" />
+        </Property_Name>
+    </GlobalProperties>
+    
+    <types>
+        <string />
+        <int />
+        <float />
+        <boolean />
+        <type />
+        <void />
+    </types>
+    
+    <Expression>
+        <LogicalExpression />
+    </Expression>
+</grammar>
