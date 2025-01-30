@@ -1,4 +1,4 @@
-// initial-ptortotype-hybrid stochastic formal descriptions for SoS modeling
+// Updated-ptortotype-hybrid stochastic formal descriptions for SoS modeling
 
 grammar org.xtext.sHSF.hsfsosm.HSoSM with org.eclipse.xtext.common.Terminals
 
